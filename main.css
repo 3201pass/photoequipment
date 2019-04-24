@@ -1,0 +1,77 @@
+html, body { 
+    height:100%; 
+    width:100%; 
+    margin:0; 
+    padding:0; 
+}
+body {
+    background-attachment: fixed;
+    background-image: url('https://cdn.pixabay.com/photo/2019/02/22/10/30/acting-4013244_1280.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    -o-background-size: 100% 100%; /* opera ≥ 9.5 */
+    -webkit-background-size: 100% 100%; /* Safari ≥ 5.0, Chrome ≥ 4.0 */
+    -khtml-background-size: 100% 100%; /* Konqueror ≥ 3.5.4 */
+    -moz-background-size: 100% 100%; /* Firefox ≥ 3.6 */
+    background-size: 100% 100%; /* браузеры с поддержкой CSS3: FF ≥ 4, Opera ≥ 10.53, IE ≥ 9.0 */
+} 
+/* Через условные комментарии или хаки пишем стили для IE */  
+* html body {
+    /* IE8 */
+    -ms-filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/google-chrome.jpg',sizingMethod='scale')";
+    /* IE < 8 */
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/body_bg.jpg', sizingMethod='scale');
+    background-image: none; /* IE ≤ 9.0 */
+}
+  
+        
+.grid-container {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 10% 90%;
+  grid-template-areas: "header header" "menuside generator";
+}
+.header { grid-area: header; }
+
+.menuside { grid-area: menuside; 
+            height: 90;}
+
+.generator { grid-area: generator; }
+.jumbotron {
+    background: rgba(204, 204, 204, 0.5);
+}
+            p {font: normal 16px/normal Verdana, Geneva, sans-serif;
+  color:#394041;}
+            label {color: black;}
+.menu{
+    margin:0; padding:10%; width:100%; list-style:none;background:rgb(255,255,255, 0.3);
+            }
+.menu li{
+    padding:0; margin:0 0 0 0; height:60%; display:block; 
+            }
+.menu li a{
+    text-align:left;height:100%; padding:0px 25px; font:16px Verdana, Arial, Helvetica, sans-serif; color:#394041; display:block; background: rgb(255,255,255, 0.3) 0px 0px no-repeat; text-decoration:none;
+            }
+.menu li a:hover{
+    background:rgb(255,255,255, 0.5) 0px -40px no-repeat; color:rgb(15,17,12);
+            }
+.menu li a.active, .menu li a.active:hover{
+    background:rgb(255,255,255, 0.5) 0px -80px no-repeat; color:rgb(15,17,12);
+            }
+.menu li a span{ 
+    line-height:40px;
+            }
+            
+            #demoFont {
+                text-align: center;
+font-family: "Arial Black", Gadget, sans-serif;
+font-size: 40px;
+letter-spacing: -2.4px;
+word-spacing: 1.4px;
+color: #000000;
+font-weight: 400;
+
+font-style: normal;
+font-variant: small-caps;
+text-transform: uppercase;
+}

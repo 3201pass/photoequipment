@@ -1,0 +1,285 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>runt</title>
+    <style>
+        html, body { 
+    height:100%; 
+    width:100%; 
+    margin:0; 
+    padding:0; 
+}
+body {
+    background-attachment: fixed;
+    background-image: url('acting-4013244_1920.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    -o-background-size: 100% 100%; /* opera ≥ 9.5 */
+    -webkit-background-size: 100% 100%; /* Safari ≥ 5.0, Chrome ≥ 4.0 */
+    -khtml-background-size: 100% 100%; /* Konqueror ≥ 3.5.4 */
+    -moz-background-size: 100% 100%; /* Firefox ≥ 3.6 */
+    background-size: 100% 100%; /* браузеры с поддержкой CSS3: FF ≥ 4, Opera ≥ 10.53, IE ≥ 9.0 */
+} 
+/* Через условные комментарии или хаки пишем стили для IE */  
+* html body {
+    /* IE8 */
+    -ms-filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/google-chrome.jpg',sizingMethod='scale')";
+    /* IE < 8 */
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/body_bg.jpg', sizingMethod='scale');
+    background-image: none; /* IE ≤ 9.0 */
+}
+  
+        
+.grid-container {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 10% 90%;
+  grid-template-areas: "header header" "menuside generator";
+}
+.header { grid-area: header; }
+
+.menuside { grid-area: menuside; 
+            height: 90;}
+
+.generator { grid-area: generator; }
+.jumbotron {
+    background: rgba(204, 204, 204, 0.5);
+}
+        h1 {
+    text-align:left;
+    font:20px Verdana, Arial, Helvetica, sans-serif;
+    color:#394041;
+    text-decoration:none;
+    font-weight: 800;
+    font-variant: small-caps;
+    text-transform: uppercase;
+        }
+        button {
+    text-align:left;
+    font:20px Verdana, Arial, Helvetica, sans-serif;
+    color:#394041;
+    text-decoration:none;
+    font-weight: 800;
+    font-variant: small-caps;
+    text-transform: uppercase;
+        } 
+        
+       input {
+    text-align:left;
+    font:20px Verdana, Arial, Helvetica, sans-serif;
+    color:#394041;
+    text-decoration:none;
+    font-weight: 800;
+    font-variant: small-caps;
+    text-transform: uppercase;
+        } 
+        label{
+    text-align:left;
+    font:20px Verdana, Arial, Helvetica, sans-serif;
+    color:#394041;
+    text-decoration:none;
+    font-weight: 800;
+    font-variant: small-caps;
+    text-transform: uppercase;
+        } 
+     
+            
+            #demoFont {
+                text-align: center;
+                font-family: "Arial Black", Gadget, sans-serif;
+                font-size: 40px;
+                letter-spacing: -2.4px;
+                word-spacing: 1.4px;
+                color: #394041;
+                font-weight: 400;
+                font-style: normal;
+                font-variant: small-caps;
+                text-transform: uppercase;
+}    
+     
+nav#navigation {
+ 
+  position: fixed;
+    
+  width: 225px;
+  height: 39.5%;
+ 
+}
+nav#navigation ul {
+  list-style: none;
+}
+nav#navigation ul li {
+    
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 60px;
+  border-bottom: 1px solid #293649;
+}
+nav#navigation ul li.active {
+  background: #2e2e2e;
+}
+nav#navigation ul li.dropdown:hover ul[class*="dropdown-"] {
+  visibility: visible;
+  opacity: 1;
+}
+nav#navigation ul li.dropdown:before {
+  
+  position: absolute;
+  margin: 20px 0 0 0;
+  left: 85%;
+  color: #aaa;
+}
+nav#navigation ul li:hover:after {
+  width: 225px;
+}
+nav#navigation ul li:after {
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  width: 0px;
+  height: 2px;
+  margin: -2px 0 0 0;
+  background: gray;
+  -webkit-transition: 150ms ease all;
+  -moz-transition: 150ms ease all;
+  transition: 150ms ease all;
+}
+nav#navigation ul li a {
+  display: block;
+  width: 100%;
+  line-height: 60px;
+  padding: 0 15px;
+  text-decoration: none;
+  color: #aaa;
+  -webkit-transition: 150ms ease all;
+  -moz-transition: 150ms ease all;
+  transition: 150ms ease all;
+}
+nav#navigation ul li a:hover {
+  background: #2e2e2e;
+  color: #eee;
+}
+nav#navigation ul li a i,
+nav#navigation ul li a span {
+  display: inline-block;
+}
+nav#navigation ul li a i {
+  position: absolute;
+  font-size: 1.3em;
+}
+nav#navigation ul li a span {
+  margin: 0 0 0 35px;
+  font-size: 0.85em;
+}
+nav#navigation ul li ul[class*="dropdown-"] {
+  position: absolute;
+  display: block;
+  margin: -61px 0 0 225px;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: 150ms ease all;
+  -moz-transition: 150ms ease all;
+  transition: 150ms ease all;
+}
+nav#navigation ul li ul[class*="dropdown-"] li {
+  width: 225px;
+  background: #171717;
+}
+nav#navigation ul li ul[class*="dropdown-"] li a:hover {
+  background: #1f1f1f;
+}     </style>
+</head>
+<!-- 
+  SELECT idAadapter, idLens, idBody
+FROM lensesadaptersbodies, lenses,bodies,adpters
+WHERE (Aadapt = Ladapt AND Aadapt = Badapt) OR (Ladapt = Badapt)
+-->
+<!--
+добавить ссылку на страницу с отзывами и поиск по отзывам
+
+возможные SQL-запросы:
+полнотекстовый поиск!
+поиск совместимого оборудования через адаптеры
+-->
+<body>
+    <div class="grid-container">
+        <div class="header">
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand">
+                    <div id="demoFont">RUND: сайт подбора фотопринадлежностей</div>
+                </a>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-dark" type="submit">Search</button>
+                </form>
+            </nav>
+
+        </div>
+        <div class="menuside">
+         <nav id="navigation">
+  <ul>
+    <li class="dropdown" rel="1"><a href="runt/body"><span>фотоаппараты</span>
+        <ul class="dropdown-1">
+          <li><a href="runt/body/comment"><span>отзывы</span></a></li>
+        </ul></a></li>
+    <li class="dropdown" rel="2"><a href="runt/lenses"><span>объективы</span>
+        <ul class="dropdown-1">
+          <li><a href="runt/lenses/comment"><span>отзывы</span></a></li>
+        </ul></a></li><li class="dropdown" rel="3"><a href="runt/flashes"><span>вспышки</span>
+        <ul class="dropdown-1">
+          <li><a href="runt/flashes/comment"><span>отзывы</span></a></li>
+        </ul></a></li><li class="dropdown" rel="4"><a href="runt/adapters"><span>адаптеры</span>
+        <ul class="dropdown-1">
+          <li><a href="runt/adapters/comment"><span>отзывы</span></a></li>
+        </ul></a></li><li class="dropdown" rel="5"><a href="runt/tripod"><span>штативы</span>
+        <ul class="dropdown-1">
+          <li><a href="runt/tripod/comment"><span>отзывы</span></a></li>
+        </ul></a></li>
+  </ul>
+            </nav>
+
+        </div>
+        <div class="generator">
+            <div class="jumbotron">
+                <h1 class="display-4">Генератор фотооборудования</h1>
+                <h1 class="lead">Что вам нужно подобрать? </h1>
+                <hr class="my-4">
+
+                <blockquote>
+                    <div class="form-check">
+                        <input class="form-check-input position-static" type="checkbox" name="blankCheckbox1" id="объективы" value="option1" aria-label="объективы">
+                        <label class="form-check-label" for="объективы">
+                            объективы
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input position-static" type="checkbox" name="blankCheckbox2" id="вспышки" value="option1" aria-label="вспышки">
+                        <label class="form-check-label" for="вспышки">
+                            вспышки
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input position-static" type="checkbox" name="blankCheckbox3" id="адаптеры" value="option1" aria-label="адаптеры и проводники">
+                        <label class="form-check-label" for="адаптеры">
+                            адаптеры и проводники
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input position-static" type="checkbox" name="blankCheckbox4" id="штативы" value="option1" aria-label="штативы">
+                        <label class="form-check-label" for="штативы">
+                            штативы
+                        </label>
+                        <br />
+                    </div>
+                </blockquote>
+
+                <a class="btn btn-outline-dark" href="#" role="button">Искать</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
