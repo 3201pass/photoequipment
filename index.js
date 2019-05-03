@@ -39,9 +39,11 @@ app.get('/runt/:type',(req, res) => {
      break;
      case 'lenses':
      break;
+     case 'l_adapters':
+     break;
      case 'flashes':
      break;
-     case 'adapters':
+     case 't_adapters':
      break;
      case 'tripod':
      break;
