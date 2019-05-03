@@ -1,0 +1,16 @@
+cofrs
+
+<table border="1">
+    <thead>
+        <th>ID</th>
+        <th>name</th>
+    </thead>
+    <tbody>
+        {% for co in cofrs %}
+        <tr>
+            <td>{{ co.idCofr }}</td>
+            <td>{{ co.model }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

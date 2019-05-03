@@ -1,0 +1,20 @@
+the body
+<table border="1">
+    <thead>
+        
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        
+    </thead>
+    <tbody>
+        {% for c in body %}
+        <tr >
+            <td>{{ c.body_company }}</td>
+            <td>{{ c.model }}</td>
+            <td>{{ c.price}}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

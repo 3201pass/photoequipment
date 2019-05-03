@@ -1,0 +1,20 @@
+this is bodies
+<table border="1">
+    <thead>
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        <th>av_rating</th>
+    </thead>
+    <tbody>
+        {% for bodies in bodies %}
+        
+        <tr onclick="location.href='/bodies/thebody/?id={{bodies.idBody}}' ; return false" >
+            <td>{{ bodies.body_company }}</td>
+            <td>{{ bodies.model }}</td>
+            <td>{{ bodies.price}}</td>
+            <td>{{ bodies.av_rating}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

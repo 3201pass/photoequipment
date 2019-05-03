@@ -32,10 +32,11 @@ app.get('/equipment', (req, res) => {
 
     res.status(200).send(name, 'categories: ', categories);
 });
-app.get('/runt/:type',(req, res) => {
+/*
+app.get('/:type',(req, res) => {
  const device = req.params.type;
  switch(device) {
-     case 'body':
+     case 'bodies':
      break;
      case 'lenses':
      break;
@@ -45,19 +46,71 @@ app.get('/runt/:type',(req, res) => {
      break;
      case 't_adapters':
      break;
-     case 'tripod':
+     case 'tripods':
      break;
  }
 res.status(200).render('indexBody.html');
 });
-app.get('/l', (req, res) => {
-    res.send('Love my Anya! <3');
-    db.query("SELECT...", (err, data) => {
+*/
+
+app.get('/:type/comments',(req, res) => {
+    const device = req.params.type;
+    switch(device) {
+        case 'bodies':
+            db.query("SELECT * from comments_bodies", (err, comments) => {
+                if (err) {
+                    console.log('Error: ', err);
+                    return;
+                }
+                res.status(200).render('comments_bodies.html', {
+                    comments: comments,
+                });
+            });
+        break;
+        case 'lenses':
+        break;
+        case 'l_adapters':
+        break;
+        case 'flashes':
+        break;
+        case 't_adapters':
+        break;
+        case 'tripods':
+        break;
+    }
+   });
+
+
+app.get('/bodies', (req, res) => {
+    db.query("SELECT b.idBody, b.model, b.price, c.name AS body_company,  COALESCE(AVG(cb.rating), 0) as av_rating " +
+	"FROM bodies b "+
+    "INNER JOIN companies c ON b.idCompany = c.idCompany "+
+    "LEFT JOIN comments_bodies cb ON b.idBody = cb.idBody " +
+    "GROUP BY b.model " + 
+    "ORDER BY av_rating DESC" , (err, data) => {
+        if (err) {
+            console.log('Error: ', err);
+            return;
+        }
+        res.status(200).render('bodies.html', {
+            bodies: data,
+        });
+    });
+});
+
+app.get('/lenses', (req, res) => {
+    res.status(200).render('lenses.html');
+});
+
+app.get('/bodies/thebody', (req, res) => {
+    db.query("SELECT b.idBody, b.model, b.price, c.name as body_company  " +
+             "FROM bodies b, companies c " +
+              "WHERE b.idBody = ? AND c.idCompany = b.idCompany ", [req.query.id], (err, body) => {
         if (err) {
             console.log('Error', err);
             return;
         }
-        // res.render('.../.html', {data: data, name: 'Igor'});
+         res.render('thebody.html', {body: body, name: req.query.id});
     })
 });
 
@@ -69,27 +122,11 @@ app.post('/comments', urlencodedParser, (req, res) => {
     console.log('POST comments request');
     const form = new formidable.IncomingForm();
     form.parse(req);
-    // var fstream;
-    // req.pipe(req.busboy);
-    // req.busboy.on('file', function (fieldname, file, filename) {
-    //     console.log("Uploading: " + filename); 
-    //     fstream = fs.createWriteStream(__dirname + '/upload/' + filename);
-    //     res.status(200).end('OK - File was uploaded successfully!');
-    //     file.pipe(fstream);
-    //     fstream.on('close', function () {
-    //         res.status(500).end("Internal Error Server");
-    //     });
-    // });
-    // req.busboy.on('finish', function() {
-    //     // use req.body
-    //     const city = req.body.city;
-    //     const state = req.body.state;
-    //     const zip = req.body.zip;
-    //     console.log(`City: ${ city }, State: ${ state }, Zip: ${ zip }`);
-    //   });
 
-    form.on('field', (name, value) => {
-        console.log(`${ name } - ${ value }`);
+    let map = new Map();
+    form.on('field', (key, value) => {
+        console.log(`${ key } - ${ value }`);
+        map.set(key, value);
       });
     
     form.on('fileBegin', function (name, file){
@@ -100,7 +137,25 @@ app.post('/comments', urlencodedParser, (req, res) => {
       });
     
       form.on('end', () => {
-        res.status(200).end('OK - File was uploaded successfully!');
+        db.query("INSERT INTO comments_bodies (text, date, author, rating, idBody) Values (?, CURDATE(), ?, ?, 2)", [
+            map.get('text'), 
+            map.get('author'),
+            map.get('rating'),            
+        ], (err, ok) => {
+            if (err) {
+                console.log('insert Error: ', err);
+                return;
+            }
+            db.query("SELECT * from comments_bodies", (err, comments) => {
+                if (err) {
+                    console.log('Error: ', err);
+                    return;
+                }
+                res.status(200).render('comments_bodies.html', {
+                    comments: comments,
+                });
+            });
+        });
       });
 });
 app.listen(3000);

@@ -1,0 +1,43 @@
+<table border="1">
+    <thead>
+        <th>ID</th>
+        <th>text</th>
+        <th>date</th>
+        <th>author</th>
+        <th>rating</th>
+    </thead>
+    <tbody>
+        {% for c in comments %}
+        <tr>
+            <td>{{ c.idComment }}</td>
+            <td>{{ c.text }}</td>
+            <td>{{ c.date }}</td>
+            <td>{{ c.author }}</td>
+            <td>{{ c.rating }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+
+<form id="commentform" action="/comments" method="POST" enctype="multipart/form-data">
+    <div class="form-row">
+      <div class="col-7">
+        <input type="text" class="form-control" placeholder="Author" name="author" id="author">
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Rating" name="rating" id="rating" >
+      </div>
+    </div> <div class="custom-file">
+      <input type="file" class="custom-file-input" id="validatedCustomFile" name="photos" 
+      multiple="multiple" required>
+      <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+      <div class="invalid-feedback"></div>
+    </div>
+                   <div class="form-group">
+      <label for="exampleFormControlTextarea1">Example textarea</label>
+      <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+       <button class="btn btn-secondary" type="submit">Submit form</button>
+  </form>
+  
