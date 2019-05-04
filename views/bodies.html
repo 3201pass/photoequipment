@@ -7,13 +7,13 @@ this is bodies
         <th>av_rating</th>
     </thead>
     <tbody>
-        {% for bodies in bodies %}
+        {% for body in bodies %}
         
-        <tr onclick="location.href='/bodies/thebody/?id={{bodies.idBody}}' ; return false" >
-            <td>{{ bodies.body_company }}</td>
-            <td>{{ bodies.model }}</td>
-            <td>{{ bodies.price}}</td>
-            <td>{{ bodies.av_rating}}</td>
+        <tr onclick="location.href='/bodies/thebody/?id={{body.idBody}}' ; return false" >
+            <td>{{ body.body_company }}</td>
+            <td>{{ body.model }}</td>
+            <td>{{ body.price}}</td>
+            <td>{{ body.av_rating}}</td>
             </tr>
         {% endfor %}
     </tbody>

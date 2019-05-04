@@ -8,11 +8,11 @@ the body {{body.model}}
         
     </thead>
     <tbody>
-        {% for c in body %}
+        {% for body in bodies %}
         <tr >
-            <td>{{ c.body_company }}</td>
-            <td>{{ c.model }}</td>
-            <td>{{ c.price}}</td>
+            <td>{{ body.body_company }}</td>
+            <td>{{ body.model }}</td>
+            <td>{{ body.price}}</td>
             
         </tr>
         {% endfor %}

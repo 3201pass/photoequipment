@@ -1,0 +1,20 @@
+this is flashes
+<table border="1">
+    <thead>
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        <th>av_rating</th>
+    </thead>
+    <tbody>
+        {% for flash in flashes %}
+        
+        <tr onclick="location.href='/flashes/theflash/?id={{flash.idFlash}}' ; return false" >
+            <td>{{ flash.flash_company }}</td>
+            <td>{{ flash.model }}</td>
+            <td>{{ flash.price}}</td>
+            <td>{{ flash.av_rating}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

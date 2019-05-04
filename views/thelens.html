@@ -8,15 +8,15 @@ the lens
         
     </thead>
     <tbody>
-        {% for c in lens %}
+        {% for lens in lenses %}
         <tr >
-            <td>{{ c.lens_company }}</td>
-            <td>{{ c.model }}</td>
-            <td>{{ c.price}}</td>
+            <td>{{ lens.lens_company }}</td>
+            <td>{{ lens.model }}</td>
+            <td>{{ lens.price}}</td>
             
         </tr>
         {% endfor %}
     </tbody>
 </table>
 <br>
-<button onclick="location.href='/lenses/thelens/comments/?id={{id}}' ; return false"> feedbacks </button>
+<button onclick="location.href='/lenses/comments_thelens/?id={{id}}' ; return false"> feedbacks </button>

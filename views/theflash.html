@@ -1,0 +1,22 @@
+the flash
+<table border="1">
+    <thead>
+        
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        
+    </thead>
+    <tbody>
+        {% for flash in flashes %}
+        <tr >
+            <td>{{ flash.flash_company }}</td>
+            <td>{{ flash.model }}</td>
+            <td>{{ flash.price}}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<button onclick="location.href='/flashes/comments_theflash/?id={{id}}' ; return false"> feedbacks </button>

@@ -1,0 +1,22 @@
+the tripod
+<table border="1">
+    <thead>
+        
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        
+    </thead>
+    <tbody>
+        {% for tripod in tripods %}
+        <tr >
+            <td>{{ tripod.tripod_company }}</td>
+            <td>{{ tripod.model }}</td>
+            <td>{{ tripod.price}}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<button onclick="location.href='/tripods/comments_thetripod/?id={{id}}' ; return false"> feedbacks </button>

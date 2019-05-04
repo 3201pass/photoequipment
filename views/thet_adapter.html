@@ -1,0 +1,22 @@
+the t_adapter
+<table border="1">
+    <thead>
+        
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        
+    </thead>
+    <tbody>
+        {% for t_adapter in t_adapters %}
+        <tr >
+            <td>{{ t_adapter.t_adapter_company }}</td>
+            <td>{{ t_adapter.model }}</td>
+            <td>{{ t_adapter.price}}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<button onclick="location.href='/t_adapters/comments_thet_adapter/?id={{id}}' ; return false"> feedbacks </button>

@@ -1,4 +1,4 @@
-comments the body
+comments the lens
 
 <table border="1">
         <thead>
@@ -10,7 +10,7 @@ comments the body
         </thead>
         <tbody>
             {% for c in comments %}
-            <tr onclick="location.href='/bodies/thebody/?id={{c.idBody}}' ; return false">
+            <tr onclick="location.href='/lenses/thelens/?id={{c.idLens}}' ; return false">
                 <td >{{ c.idComment }}</td>
                 <td>{{ c.text }}</td>
                 <td>{{ c.date }}</td>
@@ -24,7 +24,7 @@ comments the body
 <br>
 
    
-<form id="commentform" action="/bodies/comments_thebody/?id={{name}}" method="POST" enctype="multipart/form-data">
+<form id="commentform" action="/lenses/comments_thelens/?id={{name}}" method="POST" enctype="multipart/form-data">
     <input type="hidden" class="form-control" placeholder="Id" name="id" id="id" value="{{name}}">
     <div class="form-row">
       <div class="col-7">
@@ -35,14 +35,7 @@ comments the body
         <input type="number" class="form-control" placeholder="Rating" name="rating" id="rating" >
       </div>
     </div> 
-<!--
-    <div class="custom-file">
-      <input type="file" class="custom-file-input" id="validatedCustomFile" name="photos" 
-      multiple="multiple" required>
-      <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-      <div class="invalid-feedback"></div>
-    </div>
--->
+
                    <div class="form-group">
       <label for="exampleFormControlTextarea1">Example textarea</label>
       <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3"></textarea>
