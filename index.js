@@ -32,13 +32,42 @@ app.get('/equipment', (req, res) => {
 
     res.status(200).send(name, 'categories: ', categories);
 });
-/*
+
+
 app.get('/:type',(req, res) => {
  const device = req.params.type;
  switch(device) {
      case 'bodies':
+        db.query("SELECT b.idBody, b.model, b.price, c.name AS body_company,  COALESCE(AVG(cb.rating), 0) as av_rating " +
+                    "FROM bodies b "+
+                    "INNER JOIN companies c ON b.idCompany = c.idCompany "+
+                    "LEFT JOIN comments_bodies cb ON b.idBody = cb.idBody " +
+                    "GROUP BY b.model " + 
+                    "ORDER BY av_rating DESC" , (err, data) => {
+            if (err) {
+                console.log('Error: ', err);
+                return;
+            }
+            res.status(200).render('bodies.html', {
+                bodies: data,
+            });
+        });
      break;
      case 'lenses':
+     db.query("SELECT l.idLens, l.model, l.price, c.name AS lens_company,  COALESCE(AVG(cl.rating), 0) as av_rating " +
+                "FROM lenses l "+
+                "INNER JOIN companies c ON l.idCompany = c.idCompany "+
+                "LEFT JOIN comments_lenses cl ON l.idLens = cl.idLens " +
+                "GROUP BY l.model " + 
+                "ORDER BY av_rating DESC" , (err, data) => {
+        if (err) {
+            console.log('Error: ', err);
+            return;
+        }
+        res.status(200).render('lenses.html', {
+            bodies: data,
+        });
+    });
      break;
      case 'l_adapters':
      break;
@@ -48,10 +77,26 @@ app.get('/:type',(req, res) => {
      break;
      case 'tripods':
      break;
+     default: 
+        res.status(200).render('indexBody.html');
+     break;
  }
-res.status(200).render('indexBody.html');
 });
-*/
+
+
+
+app.get('/bodies/thebody', (req, res) => {
+    db.query("SELECT b.idBody, b.model, b.price, c.name as body_company  " +
+             "FROM bodies b, companies c " +
+              "WHERE b.idBody = ? AND c.idCompany = b.idCompany ", [req.query.id], (err, body) => {
+        if (err) {
+            console.log('Error', err);
+            return;
+        }
+         res.render('thebody.html', {body: body, id: req.query.id});
+    })
+    
+});
 
 app.get('/:type/comments',(req, res) => {
     const device = req.params.type;
@@ -67,7 +112,28 @@ app.get('/:type/comments',(req, res) => {
                 });
             });
         break;
+        /*
+        case 'bodies/thebody':
+            db.query("SELECT * FROM comments_bodies c WHERE c.idBody = ? ", [req.query.id], (err, comments) => {
+                if (err) {
+                    console.log('Error: ', err);
+                    return;
+                }
+                res.status(200).render('comments_bodies.html', {
+                    comments: comments,
+                });
+            });
+        break;*/
         case 'lenses':
+        db.query("SELECT * from comments_lenses", (err, comments) => {
+            if (err) {
+                console.log('Error: ', err);
+                return;
+            }
+            res.status(200).render('comments_bodies.html', {
+                comments: comments,
+            });
+        });
         break;
         case 'l_adapters':
         break;
@@ -78,47 +144,22 @@ app.get('/:type/comments',(req, res) => {
         case 'tripods':
         break;
     }
-   });
-
-
-app.get('/bodies', (req, res) => {
-    db.query("SELECT b.idBody, b.model, b.price, c.name AS body_company,  COALESCE(AVG(cb.rating), 0) as av_rating " +
-	"FROM bodies b "+
-    "INNER JOIN companies c ON b.idCompany = c.idCompany "+
-    "LEFT JOIN comments_bodies cb ON b.idBody = cb.idBody " +
-    "GROUP BY b.model " + 
-    "ORDER BY av_rating DESC" , (err, data) => {
+});
+ 
+app.get('/bodies/comments_thebody', (req, res) => {
+    db.query("SELECT * FROM comments_bodies c WHERE c.idBody = ? ", [req.query.id], (err, comments) => {
         if (err) {
             console.log('Error: ', err);
             return;
         }
-        res.status(200).render('bodies.html', {
-            bodies: data,
+        res.status(200).render('comments_thebody.html', {
+            comments: comments, name: req.query.id, 
         });
     });
 });
 
-app.get('/lenses', (req, res) => {
-    res.status(200).render('lenses.html');
-});
-
-app.get('/bodies/thebody', (req, res) => {
-    db.query("SELECT b.idBody, b.model, b.price, c.name as body_company  " +
-             "FROM bodies b, companies c " +
-              "WHERE b.idBody = ? AND c.idCompany = b.idCompany ", [req.query.id], (err, body) => {
-        if (err) {
-            console.log('Error', err);
-            return;
-        }
-         res.render('thebody.html', {body: body, name: req.query.id});
-    })
-});
-
-app.get('/comments', (req, res) => {
-    res.status(200).render('comment.html');
-});
-
-app.post('/comments', urlencodedParser, (req, res) => {
+app.post('/bodies/comments_thebody', urlencodedParser, (req, res) => {
+    //console.log(req.query.id);
     console.log('POST comments request');
     const form = new formidable.IncomingForm();
     form.parse(req);
@@ -137,22 +178,24 @@ app.post('/comments', urlencodedParser, (req, res) => {
       });
     
       form.on('end', () => {
-        db.query("INSERT INTO comments_bodies (text, date, author, rating, idBody) Values (?, CURDATE(), ?, ?, 2)", [
+        db.query("INSERT INTO comments_bodies (text, date, author, rating, idBody) Values (?, CURDATE(), ?, ?, ?)", [
+            
             map.get('text'), 
             map.get('author'),
-            map.get('rating'),            
-        ], (err, ok) => {
+            map.get('rating'),  
+            map.get('id'),    
+            ], (err, ok) => {
             if (err) {
                 console.log('insert Error: ', err);
                 return;
             }
-            db.query("SELECT * from comments_bodies", (err, comments) => {
+            db.query("SELECT * from comments_bodies c WHERE c.idBody= ? ", [map.get('id')], (err, comments) => {
                 if (err) {
                     console.log('Error: ', err);
                     return;
                 }
-                res.status(200).render('comments_bodies.html', {
-                    comments: comments,
+                res.status(200).render('comments_thebody.html', {
+                    comments: comments, name: map.get('id'),
                 });
             });
         });

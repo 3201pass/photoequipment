@@ -1,1 +1,20 @@
-sssssss
+this is lenses
+<table border="1">
+    <thead>
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        <th>av_rating</th>
+    </thead>
+    <tbody>
+        {% for lens in lenses %}
+        
+        <tr onclick="location.href='/lenses/thelens/?id={{lens.idLens}}' ; return false" >
+            <td>{{ lens.lens_company }}</td>
+            <td>{{ lens.model }}</td>
+            <td>{{ lens.price}}</td>
+            <td>{{ lens.av_rating}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

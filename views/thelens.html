@@ -1,4 +1,4 @@
-the body {{body.model}}
+the lens 
 <table border="1">
     <thead>
         
@@ -8,9 +8,9 @@ the body {{body.model}}
         
     </thead>
     <tbody>
-        {% for c in body %}
+        {% for c in lens %}
         <tr >
-            <td>{{ c.body_company }}</td>
+            <td>{{ c.lens_company }}</td>
             <td>{{ c.model }}</td>
             <td>{{ c.price}}</td>
             
@@ -19,4 +19,4 @@ the body {{body.model}}
     </tbody>
 </table>
 <br>
-<button onclick="location.href='/bodies/comments_thebody/?id={{id}}' ; return false"> feedbacks </button>
+<button onclick="location.href='/lenses/thelens/comments/?id={{id}}' ; return false"> feedbacks </button>
