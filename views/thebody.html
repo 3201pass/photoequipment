@@ -5,6 +5,9 @@ the body {{body.model}}
         <th>company</th>
         <th>model</th>
         <th>price</th>
+        <th>matrix</th>
+        <th>power_supply</th>
+        <th>display</th>
         
     </thead>
     <tbody>
@@ -13,7 +16,10 @@ the body {{body.model}}
             <td>{{ body.body_company }}</td>
             <td>{{ body.model }}</td>
             <td>{{ body.price}}</td>
-            
+            <td>{{ body.matrix}}</td>
+            <td>{{ body.power_supply}}</td>
+            <td>{{ body.display}}</td>
+                        
         </tr>
         {% endfor %}
     </tbody>

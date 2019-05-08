@@ -7,6 +7,7 @@ const fs = require('fs');
 const bodyParser = require("body-parser");
 const formidable = require('formidable');
 const busboy = require('connect-busboy');
+const auth = require('./authentication.js');
 //...
 app.use(busboy()); 
 const fileupload = require("express-fileupload")
@@ -17,20 +18,259 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(urlencodedParser);
 // app.use(express.static(__dirname + "/public"));
 
+//var user = NULL;
 
 nunjucks.configure('views', {
     autoescape: true,
     express: app
-});
+});``
 
 app.get('/', (req, res) => {
-     res.status(200).render('indexBody.html');
-});
-app.get('/equipment', (req, res) => {
-    const name=req.query.search_things;
-    const categories = req.query.categories;
+    db.query('SELECT b.* from bodies b', (err, results) => {
+                    if (err) {
+                        console.log('insert Error: ', err);
+                        return;
+                    }
+                    res.status(200).render('indexBody.html', {
+                        results,
+                     });
+                });
 
-    res.status(200).send(name, 'categories: ', categories);
+});
+
+app.get('/log_in', (req, res) => {
+    res.status(200).render('log_in.html')
+});
+
+app.get('/sign_up', (req, res) => {
+    res.status(200).render('sign_up.html')
+});
+
+app.post( '/user/log_in', urlencodedParser, (req, res) =>{
+    //authenticate
+    console.log('POST comments request');
+    const form = new formidable.IncomingForm();
+    form.parse(req);
+
+    let map = new Map();
+    form.on('field', (key, value) => {
+        console.log(`${ key } - ${ value }`);
+        map.set(key, value);
+      });
+      form.on('end', () => {
+        console.log("end");
+        message = '_';
+        auth.authenticate(
+        map.get("login"), 
+        map.get("pass"), 
+        function (ress){ 
+            console.log("res:",ress);
+            if (ress) {
+                console.log(ress);
+                message = "OK!"; 
+                console.log(message);
+            }    
+            else {
+                console.log(ress);
+                message = "NOT OK!((((((((((("; 
+                console.log(message);    
+            }
+            console.log(message);
+            res.status(200).render('user.html', {message, } );
+        }
+        ) 
+        
+        
+      });
+});
+
+app.post( '/user/sign_up', urlencodedParser, (req, res) =>{
+    //authenticate
+    console.log('/user/sign_up');
+    const form = new formidable.IncomingForm();
+    form.parse(req);
+
+    let map = new Map();
+    form.on('field', (key, value) => {
+        console.log(`${ key } - ${ value }`);
+        map.set(key, value);
+      });
+      form.on('end', () => {
+        console.log("end");
+        message = '_';
+        auth.signup(
+            map.get("login"), 
+            map.get("pass"), 
+            map.get("name"),
+            function (res){ 
+                console.log("res:",res);
+                if (res) {
+                    console.log(res);
+                    message = "OK!"; 
+                    console.log(message);
+                }    
+                else {
+                    console.log(res);
+                    message = "NOT OK!((((((((((("; 
+                    console.log(message);    
+                }
+            }
+            ) 
+       
+          res.status(200).render('user.html', {message, } );
+        
+      });
+});
+
+
+app.get('/equipment', (req, res) => {
+
+   console.log(req.query.equipment);
+   console.log(req.query.select_body);
+
+   switch(req.query.equipment) {
+    case 'lenses':
+        console.log('ok',req.query.equipment);
+            db.query('SELECT l.*, l.idLens as id, c.name ,COALESCE(AVG(cl.rating), 0) as av_rating FROM lenses l ' +
+                'INNER JOIN companies c ON l.idCompany = c.idCompany ' +
+                'LEFT JOIN comments_lenses cl ON l.idLens = cl.idLens ' +
+                'WHERE l.idLens IN (SELECT lab.idLens from lenses_adapters_bodies lab where idBody = ?)  ' +
+                'GROUP BY l.model ' + 
+                'ORDER BY av_rating DESC', [req.query.select_body ], (err, results) => {
+                if (err) {
+                    console.log('insert Error: ', err);
+                    return;
+                }
+                res.status(200).render('equipment.html', {
+                    results, 
+                    name: req.query.equipment,
+                    link1:'/lenses/thelens/',  
+                });
+            });
+        
+        break;
+        case 'flashes':
+        console.log('ok',req.query.equipment);
+            db.query('SELECT *, f.idFlash as id, c.name FROM flashes f ' +
+            'INNER JOIN companies c ON f.idCompany = c.idCompany ' +
+            'LEFT JOIN comments_flashes cf ON f.idFlash = cf.idFlash ' +
+            'WHERE f.idBody = ? ', [req.query.select_body ], (err, results) => {
+                if (err) {
+                    console.log('insert Error: ', err);
+                    return;
+                }
+                res.status(200).render('equipment.html', {
+                    results:results, 
+                    name:req.query.equipment,  
+                    link1:'/flashes/theflash/',
+                });
+            });
+        break;
+        case 'l_adapters':
+        console.log('ok',req.query.equipment);
+            db.query('SELECT la.*, la.idLAdapter as id, c.name ,COALESCE(AVG(cla.rating), 0) as av_rating FROM l_adapters la ' +
+                'INNER JOIN companies c ON la.idCompany = c.idCompany ' +
+                'LEFT JOIN comments_l_adapters cla ON la.idLAdapter = cla.idLAdapter ' +
+                'WHERE la.idLAdapter IN (SELECT lab.idLAdapter from lenses_adapters_bodies lab where idBody = ?)  ' +
+                'GROUP BY la.model ' + 
+                'ORDER BY av_rating DESC', [req.query.select_body ], (err, results) => {
+                if (err) {
+                    console.log('insert Error: ', err);
+                    return;
+                }
+                res.status(200).render('equipment.html', {
+                    results: results, 
+                    name: req.query.equipment, 
+                    link1:'/l_adapters/thel_adapter/',
+                });
+            });
+        break;
+        case 'tripods':
+        console.log('ok',req.query.equipment);
+            db.query('SELECT t.*, t.idTripod as id, c.name ,COALESCE(AVG(ct.rating), 0) as av_rating FROM tripods t ' +
+                'INNER JOIN companies c ON t.idCompany = c.idCompany ' +
+                'LEFT JOIN comments_tripods ct ON t.idTripod = ct.idTripod ' +
+                'WHERE t.idTripod IN (SELECT tab.idTripod from tripods_adapters_bodies tab where idBody = ?)  ' +
+                'GROUP BY t.model ' + 
+                'ORDER BY av_rating DESC', [req.query.select_body], (err, results) => {
+                if (err) {
+                    console.log('insert Error: ', err);
+                    return;
+                }
+                res.status(200).render('equipment.html', {
+                    results0 :results, 
+                    name: req.query.equipment, 
+                    link1:'/tripods/thetripod/',
+                });
+            });
+        break;
+        case 't_adapters':
+        console.log('ok',req.query.equipment);
+            db.query('SELECT ta.*, ta.idTAdapter as id, c.name ,COALESCE(AVG(cta.rating), 0) as av_rating FROM t_adapters ta ' +
+                'INNER JOIN companies c ON ta.idCompany = c.idCompany ' +
+                'LEFT JOIN comments_t_adapters cta ON ta.idTAdapter = cta.idTAdapter ' +
+                'WHERE ta.idTAdapter IN (SELECT tab.idTAdapter from tripods_adapters_bodies tab where idBody = ?)  ' +
+                'GROUP BY ta.model ' + 
+                'ORDER BY av_rating DESC', [req.query.select_body], (err, results) => {
+                if (err) {
+                    console.log('insert Error: ', err);
+                    return;
+                }
+                res.status(200).render('equipment.html', {
+                    results: results , 
+                    name: req.query.equipment, 
+                    link1:'/t_adapters/thet_adapter/',
+                });
+            });
+        break;
+   }
+   /*
+   const form = new formidable.IncomingForm();
+   form.parse(req);
+    name = '';
+   //let map = new Map();
+   form.on('field', (key, value) => {
+       console.log(`${ key } - ${ value }`);
+       name = value ;
+       //map.set(key, value);
+    });
+    */
+   
+   // form.on('end', () => {
+        //console.log('ok');
+       /*
+        console.log('map.size= ', map.size);
+        //console.log(map.get('p_contents[]'));
+        name = '';
+        for (i=0; i<5; i=i+1)
+        {
+            if (map.get('p_contents['+i+']')) 
+            {
+                if (name != '')
+                {
+                name = name + ', ';
+                }
+                name = name + map.get('equipment');
+            }
+            
+        } 
+        //name = name.substring(0,name.length - 1);
+        */
+        //console.log('name:' ,name);
+        /* db.query('SELECT * from ' + name, (err, ok) => {
+            if (err) {
+                console.log('insert Error: ', err);
+                return;
+            }
+            res.status(200).render('equipment.html', {
+                ok:ok, name:name 
+            });
+        });
+        */
+       //const data = await db.query('SELECT * FROM lenses');
+       
+   // });
+
 });
 
 
@@ -133,22 +373,6 @@ app.get('/:type',(req, res) => {
             });
         });
      break;
-     case 'cofrs':
-        db.query("SELECT co.idCofr, co.model, co.price, c.name AS cofr_company,  COALESCE(AVG(cco.rating), 0) as av_rating " +
-                "FROM cofrs co "+
-                "INNER JOIN companies c ON co.idCompany = c.idCompany "+
-                "LEFT JOIN comments_cofrs cco ON f.idCofr = cco.idCofr " +
-                "GROUP BY co.model " + 
-                "ORDER BY av_rating DESC" , (err, data) => {
-            if (err) {
-            console.log('Error: ', err);
-            return;
-            }
-            res.status(200).render('cofrs.html', {
-                cofrs: data,
-            });
-        });
-     break;
      default: 
         res.status(200).render('indexBody.html');
      break;
@@ -225,24 +449,13 @@ app.get('/:type/comments',(req, res) => {
                 });
             });
         break;
-        case 'cofrs':
-            db.query("SELECT * from comments_cofrs", (err, comments) => {
-                if (err) {
-                    console.log('Error: ', err);
-                    return;
-                }
-                res.status(200).render('comments_cofrs.html', {
-                    comments: comments,
-                });
-            });
-        break;
     }
 });
  
 /////////////////
 
 app.get('/bodies/thebody', (req, res) => {
-    db.query("SELECT b.idBody, b.model, b.price, c.name as body_company  " +
+    db.query("SELECT b.*, c.name as body_company  " +
              "FROM bodies b, companies c " +
               "WHERE b.idBody = ? AND c.idCompany = b.idCompany ", [req.query.id], (err, body) => {
         if (err) {
@@ -313,7 +526,7 @@ app.post('/bodies/comments_thebody', urlencodedParser, (req, res) => {
 /////////////////
 
 app.get('/lenses/thelens', (req, res) => {
-    db.query("SELECT l.idLens, l.model, l.price, c.name as lens_company  " +
+    db.query("SELECT l.*, c.name as lens_company  " +
              "FROM lenses l, companies c " +
               "WHERE l.idLens = ? AND c.idCompany = l.idCompany ", [req.query.id], (err, data) => {
         if (err) {
@@ -435,7 +648,7 @@ app.post('/l_adapters/comments_thel_adapter', urlencodedParser, (req, res) => {
 /////////////////
 
 app.get('/flashes/theflash', (req, res) => {
-    db.query("SELECT f.idFlash, f.model, f.price, c.name as flash_company  " +
+    db.query("SELECT f.*, f.price, c.name as flash_company  " +
              "FROM flashes f, companies c " +
               "WHERE f.idFlash = ? AND c.idCompany = f.idCompany ", [req.query.id], (err, data) => {
         if (err) {
@@ -564,7 +777,10 @@ app.get('/t_adapters/thet_adapter', (req, res) => {
             console.log('Error', err);
             return;
         }
-         res.render('thet_adapter.html', {t_adapters: data, id: req.query.id});
+         res.render('thet_adapter.html', {
+             t_adapters: data,
+              id: req.query.id,
+            });
     })
     
 });
@@ -616,20 +832,6 @@ app.post('/t_adapters/comments_thet_adapter', urlencodedParser, (req, res) => {
 });
 
 /////////////////
-
-app.get('/cofrs/thecofr', (req, res) => {
-    db.query("SELECT co.idCofr, co.model, co.price, c.name as cofr_company  " +
-             "FROM cofrs co, companies c " +
-              "WHERE co.idCofr = ? AND c.idCompany = co.idCompany ", [req.query.id], (err, data) => {
-        if (err) {
-            console.log('Error', err);
-            return;
-        }
-         res.render('thecofr.html', {cofrs: data, id: req.query.id});
-    })
-    
-});
-
 
 
 

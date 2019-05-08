@@ -5,7 +5,9 @@ the lens
         <th>company</th>
         <th>model</th>
         <th>price</th>
-        
+        <th>min_focal_length</th>
+        <th>max_focal_length</th>
+
     </thead>
     <tbody>
         {% for lens in lenses %}
@@ -13,7 +15,8 @@ the lens
             <td>{{ lens.lens_company }}</td>
             <td>{{ lens.model }}</td>
             <td>{{ lens.price}}</td>
-            
+            <td>{{ lens.min_focal_length}}</td>
+            <td>{{ lens.max_focal_length}}</td>
         </tr>
         {% endfor %}
     </tbody>

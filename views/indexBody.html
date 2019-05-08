@@ -375,44 +375,53 @@ WHERE (Aadapt = Ladapt AND Aadapt = Badapt) OR (Ladapt = Badapt)
                 <h1 class="lead">Что вам нужно подобрать? </h1>
                 <hr class="my-4">
 
+
+                <form id="commentform" action="/equipment/" method="GET" enctype="multipart/form-data" name="addForm">
                 <blockquote>
-                    <form name="addForm">
+                    
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="checkbox" name="p_contents[]" id="объективы" value="lenses" aria-label="объективы">
+                        <input class="form-check-input position-static" type="radio" name="equipment" id="объективы" value='lenses' aria-label="объективы">
                         <label class="form-check-label" for="объективы">
                             объективы
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="checkbox" name="p_contents[]" id="вспышки" value="flashes" aria-label="вспышки">
+                        <input class="form-check-input position-static" type="radio" name="equipment" id="вспышки" value="flashes" aria-label="вспышки">
                         <label class="form-check-label" for="вспышки">
                             вспышки
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="checkbox" name="p_contents[]" id="адаптеры для объективов" value="l_adapters" aria-label="адаптеры для объективов">
+                        <input class="form-check-input position-static" type="radio" name="equipment" id="адаптеры для объективов" value="l_adapters" aria-label="адаптеры для объективов">
                         <label class="form-check-label" for="адаптеры для объективов">
                             адаптеры для объективов
                         </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input position-static" type="checkbox" name="p_contents[]" id="адаптеры для штативов" value="t_adapters" aria-label="адаптеры для штативов">
+                      <input class="form-check-input position-static" type="radio" name="equipment" id="адаптеры для штативов" value="t_adapters" aria-label="адаптеры для штативов">
                       <label class="form-check-label" for="адаптеры для штативов">
                           адаптеры для штативов
                       </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="checkbox" name="p_contents[]" id="штативы" value="tripods" aria-label="штативы">
+                        <input class="form-check-input position-static" type="radio" name="equipment" id="штативы" value="tripods" aria-label="штативы">
                         <label class="form-check-label" for="штативы">
                             штативы
                         </label>
-                        
+                        <div>
+                        <select name="select_body">
+                          {% for res in results %}
+                          <option value="{{res.idBody}}">{{res.model}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
                         <br />
                     </div>
-                        </form>
+                        
                 </blockquote>
 
-                <a class="btn btn-outline-dark"  href="#" role="button" onclick="doIt(); return false;">Искать</a>
+                <button class="btn btn-secondary" type="submit" >Искать</button>
+              </form>
             </div>
         </div>
     
@@ -437,6 +446,8 @@ alert(contents);
     
 }
     </script>
+<button onclick="location.href='/sign_up' ; return false"> sign up </button>
+<button onclick="location.href='/log_in' ; return false"> log in </button>
 </body>
 
 </html>

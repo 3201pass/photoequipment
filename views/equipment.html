@@ -1,0 +1,20 @@
+FOUND {{name}}  
+    <table border="1">
+        <thead>
+            <th>company</th>
+            <th>model</th>
+            <th>price</th>
+            <th>av_rating</th>
+
+        </thead>
+        <tbody>
+            {% for c in results %}
+            <tr onclick="location.href='{{link1}}?id={{c.id}}' ; return false">
+                <td>{{ c.name }}</td>
+                <td >{{ c.model }}</td>
+                <td>{{ c.price }}</td>
+                <td>{{ c.av_rating}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
