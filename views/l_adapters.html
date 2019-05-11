@@ -1,6 +1,7 @@
 this is l_adapters
 <table border="1">
     <thead>
+        
         <th>company</th>
         <th>model</th>
         <th>price</th>
@@ -10,6 +11,7 @@ this is l_adapters
         {% for l_adapter in l_adapters %}
         
         <tr onclick="location.href='/l_adapters/thel_adapter/?id={{l_adapter.idLAdapter}}' ; return false" >
+            
             <td>{{ l_adapter.l_adapter_company }}</td>
             <td>{{ l_adapter.model }}</td>
             <td>{{ l_adapter.price}}</td>
@@ -18,3 +20,4 @@ this is l_adapters
         {% endfor %}
     </tbody>
 </table>
+<button onclick="location.href='/' ; return false" >home</button>

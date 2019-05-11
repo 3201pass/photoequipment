@@ -11,7 +11,7 @@ the body {{body.model}}
         
     </thead>
     <tbody>
-        {% for body in bodies %}
+        {% for body in bodies[0] %}
         <tr >
             <td>{{ body.body_company }}</td>
             <td>{{ body.model }}</td>
@@ -23,6 +23,15 @@ the body {{body.model}}
         </tr>
         {% endfor %}
     </tbody>
+    
 </table>
 <br>
+{% if bodies[1] and  bodies[1].status == 1%}
+    <button onclick="location.href='/delete_body' ; return false"> delete </button>
+{% elseif bodies[1].status == 0 %}
+
+{% else %}
+    
+{% endif %}
 <button onclick="location.href='/bodies/comments_thebody/?id={{id}}' ; return false"> feedbacks </button>
+<button onclick="location.href='/' ; return false" >home</button>

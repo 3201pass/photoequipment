@@ -376,45 +376,138 @@ WHERE (Aadapt = Ladapt AND Aadapt = Badapt) OR (Ladapt = Badapt)
                 <hr class="my-4">
 
 
-                <form id="commentform" action="/equipment/" method="GET" enctype="multipart/form-data" name="addForm">
+                <form id="group" action="/equipment/" method="GET" enctype="multipart/form-data" name="addForm">
                 <blockquote>
                     
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="radio" name="equipment" id="объективы" value='lenses' aria-label="объективы">
-                        <label class="form-check-label" for="объективы">
+                        <input class="form-check-input position-static" type="checkbox" name="equipment" id="lenses" value='lenses' >
+                        <label class="form-check-label" for="lenses">
                             объективы
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="radio" name="equipment" id="вспышки" value="flashes" aria-label="вспышки">
-                        <label class="form-check-label" for="вспышки">
+                        <input class="form-check-input position-static" type="checkbox" name="equipment" id="flashes" value="flashes" >
+                        <label class="form-check-label" for="flashes">
                             вспышки
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="radio" name="equipment" id="адаптеры для объективов" value="l_adapters" aria-label="адаптеры для объективов">
-                        <label class="form-check-label" for="адаптеры для объективов">
+                        <input class="form-check-input position-static" type="checkbox" name="equipment" id="l_adapters" value="l_adapters" >
+                        <label class="form-check-label" for="l_adapters">
                             адаптеры для объективов
                         </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input position-static" type="radio" name="equipment" id="адаптеры для штативов" value="t_adapters" aria-label="адаптеры для штативов">
-                      <label class="form-check-label" for="адаптеры для штативов">
+                      <input class="form-check-input position-static" type="checkbox" name="equipment" id="t_adapters" value="t_adapters" >
+                      <label class="form-check-label" for="t_adapters">
                           адаптеры для штативов
                       </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="radio" name="equipment" id="штативы" value="tripods" aria-label="штативы">
-                        <label class="form-check-label" for="штативы">
+                        <input class="form-check-input position-static" type="checkbox" name="equipment" id="tripods" value="tripods" >
+                        <label class="form-check-label" for="tripods">
                             штативы
                         </label>
-                        <div>
+                        <div> select_body
                         <select name="select_body">
-                          {% for res in results %}
-                          <option value="{{res.idBody}}">{{res.model}}</option>
+                          {% for res in results[0] %}
+                          <option value="{{res.idBody}}">{{res.name}} {{res.model}}</option>
                           {% endfor %}
                         </select>
                       </div>
+
+
+                      <div id="select_lens" style="display: none;"> select_lens
+                          <select name="select_lens">
+                              <option value="0">-</option>
+                              {% for res in results[1] %}
+                              <option value="{{res.idLens}}">{{res.name}} {{res.model}}</option>
+                              {% endfor %}
+                            </select>
+                      </div>
+
+                      <div id="select_l_adapter" style="display: none;">select_l_adapter
+                          <select name="select_l_adapter">
+                              <option value="0">-</option>
+                              {% for res in results[2] %}
+                              <option value="{{res.idlAdapter}}">{{res.name}} {{res.model}}</option>
+                              {% endfor %}
+                            </select>
+                      </div>
+
+                      <div id="select_tripod" style="display: none;">select_tripod
+                          <select name="select_tripod">
+                              <option value="0">-</option>
+                              {% for res in results[3] %}
+                              <option value="{{res.idTripod}}">{{res.name}} {{res.model}}</option>
+                              {% endfor %}
+                            </select>
+                      </div>
+
+                      <div id="select_t_adapter" style="display: none;">select_t_adapter
+                          <select name="select_t_adapter">
+                              <option value="0">-</option>
+                              {% for res in results[4] %}
+                              <option value="{{res.idTAdapter}}">{{res.name}} {{res.model}}</option>
+                              {% endfor %}
+                            </select>
+                      </div>
+
+
+                      <script>
+                        $('#group input:checkbox').click(function(){
+                          if ($(this).is(':checked')) {
+                              $('#group input:checkbox').not(this).prop('checked', false);
+                          }
+                        });
+                          
+                          //////////////////////
+
+                          $('#lenses').click(function(){
+                              if ($(this).is(':checked')){
+                                  $('#select_l_adapter').show(100);
+                                  $('#select_tripod').hide(100);
+                                  $('#select_t_adapter').hide(100);
+                                  $('#select_lens').hide(100);
+                              }
+                          });
+                          $('#tripods').click(function(){
+                              if ($(this).is(':checked')){
+                                  $('#select_t_adapter').show(100);
+                                  $('#select_lens').hide(100);
+                                  $('#select_tripod').hide(100);
+                                  $('#select_l_adapter').hide(100);
+                              }
+                          });
+                          $('#l_adapters').click(function(){
+                              if ($(this).is(':checked')){
+                                  $('#select_lens').show(100);
+                                  $('#select_l_adapter').hide(100);
+                                  $('#select_tripod').hide(100);
+                                  $('#select_t_adapter').hide(100);
+                              }
+                          });
+                          $('#t_adapters').click(function(){
+                              if ($(this).is(':checked')){
+                                  $('#select_tripod').show(100);
+                                  $('#select_lens').hide(100);
+                                  $('#select_l_adapter').hide(100);
+                                  $('#select_t_adapter').hide(100);
+                              }
+                          });
+
+                          $('#flashes').click(function(){
+                              if ($(this).is(':checked')){
+                                  $('#select_tripod').hide(100);
+                                  $('#select_lens').hide(100);
+                                  $('#select_tripod').hide(100);
+                                  $('#select_t_adapter').hide(100);
+                              }
+                          });
+
+                          </script>
+
+
                         <br />
                     </div>
                         
@@ -446,8 +539,9 @@ alert(contents);
     
 }
     </script>
-<button onclick="location.href='/sign_up' ; return false"> sign up </button>
-<button onclick="location.href='/log_in' ; return false"> log in </button>
+
+<button onclick="location.href='/log_out' ; return false"> log_out </button>
+
 </body>
 
 </html>

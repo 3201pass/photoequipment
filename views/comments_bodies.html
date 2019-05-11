@@ -2,24 +2,31 @@ bodies comments
 <table border="1">
     <thead>
         <th>ID</th>
+        <th>company</th>
+        <th>model</th>
+        <th>author</th>
         <th>text</th>
         <th>date</th>
-        <th>author</th>
         <th>rating</th>
     </thead>
     <tbody>
         {% for c in comments %}
         <tr onclick="location.href='/bodies/thebody/?id={{c.idBody}}' ; return false">
             <td >{{ c.idComment }}</td>
-            <td>{{ c.text }}</td>
-            <td>{{ c.date }}</td>
+            <td>{{ c.model }}</td>
+            <td>{{ c.name }}</td>
             <td>{{ c.author }}</td>
+            <td>{{ c.text }}</td>
+            <td>{{ c.date }}</td> 
             <td>{{ c.rating }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 <br>
+
+<button onclick="location.href='/' ; return false" >home</button>
+
   <!-- 
 <form id="commentform" action="/comments" method="POST" enctype="multipart/form-data">
     <div class="form-row">

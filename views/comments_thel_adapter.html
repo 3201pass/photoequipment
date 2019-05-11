@@ -3,18 +3,24 @@ comments the l_adapter
 <table border="1">
         <thead>
             <th>ID</th>
+            <th>company</th>
+            <th>model</th>
+            <th>author</th>
             <th>text</th>
             <th>date</th>
-            <th>author</th>
+           
             <th>rating</th>
         </thead>
         <tbody>
             {% for c in comments %}
             <tr onclick="location.href='/l_adapters/thel_adapter/?id={{c.idLAdapter}}' ; return false">
                 <td >{{ c.idComment }}</td>
+                <td>{{ c.model }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.author }}</td>
                 <td>{{ c.text }}</td>
                 <td>{{ c.date }}</td>
-                <td>{{ c.author }}</td>
+                
                 <td>{{ c.rating }}</td>
             </tr>
             {% endfor %}
@@ -26,13 +32,11 @@ comments the l_adapter
    
 <form id="commentform" action="/l_adapters/comments_thel_adapter/?id={{name}}" method="POST" enctype="multipart/form-data">
     <input type="hidden" class="form-control" placeholder="Id" name="id" id="id" value="{{name}}">
+    <input type="hidden" class="form-control" placeholder="Author" name="author" id="author" value="{{idUser}}" >
     <div class="form-row">
-      <div class="col-7">
-        
-        <input type="text" class="form-control" placeholder="Author" name="author" id="author">
-      </div>
+
       <div class="col">
-        <input type="number" class="form-control" placeholder="Rating" name="rating" id="rating" >
+        <input type="number" class="form-control" placeholder="Rating" name="rating" id="rating" min="1" max="5">
       </div>
     </div> 
 
@@ -43,4 +47,4 @@ comments the l_adapter
 
        <button class="btn btn-secondary" type="submit">Submit form</button>
   </form>
-   
+  <button onclick="location.href='/' ; return false" >home</button>
