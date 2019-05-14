@@ -1,0 +1,29 @@
+this is bodies
+<table border="1">
+    <thead>
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        <th>av_rating</th>
+    </thead>
+    <tbody>
+        {% for body in bodies %}
+        
+        <tr onclick="location.href='/bodies/thebody/?id={{body.idBody}}' ; return false" >
+            <td>{{ body.body_company }}</td>
+            <td>{{ body.model }}</td>
+            <td>{{ body.price}}</td>
+            <td>{{ body.av_rating}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<form id="find_body" action="/bodies" method="POST" enctype="multipart/form-data">
+
+        <input type="text" name="find">
+
+       <button type="submit">Find</button>
+  </form>
+
+<button onclick="location.href='/' ; return false" >home</button>

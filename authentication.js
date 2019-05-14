@@ -1,39 +1,45 @@
+const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
 const cookieParser = require('cookie-parser');
 const db = require('./db');
 const dotenv = require('dotenv').config();
+var app = express()
+app.use(cookieParser())
 
 var salt = bcrypt.genSaltSync(10);
 
 module.exports = {
 
-    isAuthenticated: function(req, callback) {
+    isAuthenticated: function (req, callback) {
         console.log("isAuthenticated");
+
         if (!req.cookies['access_token']) {
             callback(null);
             return;
         }
         const token = req.cookies['access_token'];
         try {
+
+
             const data = jwt.decode(token, "woo");
-            console.log('data', data.log);
+            console.log('data', data.login);
             db.query("SELECT idUser, login FROM users " +
-            "WHERE login = ? ", 
-            [data.log], (err, repairers) => {
-                if (repairers[0]) {
-                    callback(repairers[0]);
-                    return;
-                }
-                callback(null);
-            });
+                "WHERE login = ? ",
+                [data.login], (err, repairers) => {
+                    if (repairers[0]) {
+                        callback(repairers[0]);
+                        return;
+                    }
+                    callback(null);
+                });
         }
-        catch(err) {
+        catch (err) {
             callback(null);
         }
     },
 
-    authenticate: function(log, password, callback) {
+    authenticate: function (log, password, callback) {
         console.log("authenticate");
         db.query("SELECT password FROM Users WHERE login = ?", [log], (err, users) => {
             if (err) {
@@ -46,9 +52,9 @@ module.exports = {
                 callback(false);
                 return;
             }
-            
-                //bcrypt.hashSync(users[0].password, salt)
-            bcrypt.compare(password, users[0].password,  (err, valid) => {
+
+            //bcrypt.hashSync(users[0].password, salt)
+            bcrypt.compare(password, users[0].password, (err, valid) => {
                 console.log('valid', valid);
                 if (valid) {
                     callback(true);
@@ -59,7 +65,7 @@ module.exports = {
         });
     },
 
-    signup: function(log, password, name, callback) {
+    signup: function (log, password, name, callback) {
         console.log("signup");
         db.query("SELECT password FROM Users WHERE login = ?", [log], (err, users) => {
             if (err) {
@@ -77,7 +83,7 @@ module.exports = {
                     log,
                     bcrypt.hashSync(password, salt),
                     name,
-                    ], (err, ok) => {
+                ], (err, ok) => {
                     if (err) {
                         console.log('insert Error: ', err);
                         callback(false);
@@ -85,41 +91,35 @@ module.exports = {
                     }
                     callback(true);
                     return;
-                    /*
-                    db.query("SELECT * from Users WHERE login= ? ", [], (err, comments) => {
-                        if (err) {
-                            console.log('Error: ', err);
-                            return;
-                        }
-                        callback(true);
-                        return;
-                        });
-                    });
-                    */
+
                 });
-                
+
             }
 
         });
     },
 
-    login: function(log, res, callback) {
+    login: function (log, res, callback) {
         console.log("login");
         db.query("SELECT idUser, login " +
-        "FROM Users WHERE login = ?", [log], (err, users) => {
-            if (err) {
-                console.log('500 error');
-                callback(null);
-            }
-            const token = jwt.encode(users[0],"woo"); // Sign token
-            res.cookie('access_token', token, {
-                expires: new Date(Date.now() +  12 * 60 * 60000), // 12 hours expire time
-              });
-              callback(users[0]);
-        });
+            "FROM Users WHERE login = ?", [log], (err, users) => {
+                if (err) {
+                    console.log('500 error');
+                    callback(null);
+                }
+                console.log("login2");
+                const token = jwt.encode(users[0], "woo"); // Sign token
+                console.log("login3");
+                res.cookie('access_token', token, {
+                    expires: new Date(Date.now() + 12 * 60 * 60000), // 12 hours expire time
+                });
+
+                console.log("login4:", token);
+                callback(users[0]);
+            });
     },
 
-    logout: function(res) {
+    logout: function (res) {
         console.log("logout");
         res.clearCookie('access_token');
         res.redirect('/');

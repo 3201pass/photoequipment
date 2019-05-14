@@ -1,0 +1,21 @@
+this is tripods
+<table border="1">
+    <thead>
+        <th>company</th>
+        <th>model</th>
+        <th>price</th>
+        <th>av_rating</th>
+    </thead>
+    <tbody>
+        {% for tripod in tripods %}
+        
+        <tr onclick="location.href='/tripods/thetripod/?id={{tripod.idTripod}}' ; return false" >
+            <td>{{ tripod.tripod_company }}</td>
+            <td>{{ tripod.model }}</td>
+            <td>{{ tripod.price}}</td>
+            <td>{{ tripod.av_rating}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<button onclick="location.href='/' ; return false" >home</button>

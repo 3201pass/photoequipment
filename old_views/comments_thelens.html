@@ -1,0 +1,50 @@
+comments the lens
+
+<table border="1">
+        <thead>
+            <th>ID</th>
+            <th>company</th>
+            <th>model</th>
+            <th>author</th>
+            <th>text</th>
+            <th>date</th>
+           
+            <th>rating</th>
+        </thead>
+        <tbody>
+            {% for c in comments %}
+            <tr onclick="location.href='/lenses/thelens/?id={{c.idLens}}' ; return false">
+                <td >{{ c.idComment }}</td>
+                <td>{{ c.model }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.author }}</td>
+                <td>{{ c.text }}</td>
+                <td>{{ c.date }}</td>
+                
+                <td>{{ c.rating }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+
+<br>
+
+   
+<form id="commentform" action="/lenses/comments_thelens/?id={{name}}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" class="form-control" placeholder="Id" name="id" id="id" value="{{name}}">
+    <input type="hidden" class="form-control" placeholder="Author" name="author" id="author" value="{{idUser}}" >
+    <div class="form-row">
+
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Rating" name="rating" id="rating" min="1" max="5">
+      </div>
+    </div> 
+
+                   <div class="form-group">
+      <label for="exampleFormControlTextarea1">Example textarea</label>
+      <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+
+       <button class="btn btn-secondary" type="submit">Submit form</button>
+  </form>
+  <button onclick="location.href='/' ; return false" >home</button>

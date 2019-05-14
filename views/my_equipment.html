@@ -1,0 +1,332 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+<!— Required meta tags —> 
+<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+
+<!— Bootstrap CSS —> 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+<style> 
+table { 
+font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif; 
+text-align: center; 
+border-collapse: collapse; 
+border-spacing: 5px; 
+
+border-radius: 20px; 
+} 
+h1{ 
+color: #B9268D; 
+} 
+::-webkit-scrollbar { 
+width: 12px; 
+} 
+
+::-webkit-scrollbar-track { 
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+border-radius: 10px; 
+} 
+
+::-webkit-scrollbar-thumb { 
+border-radius: 10px; 
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+} 
+th { 
+font-size: 22px; 
+font-weight: 300; 
+padding: 12px 10px; 
+border-bottom: 2px solid #B9268D; 
+color: #B9268D; 
+} 
+tbody tr:nth-child(2) { 
+border-bottom: 2px solid #B9268D; 
+} 
+td { 
+padding: 10px; 
+color: #B9268D; 
+} 
+html{ 
+filter: invert(100%); 
+background-color: black; 
+} 
+input{ 
+color:#B9268D; 
+margin: 5px; 
+} 
+div { 
+overflow:auto; 
+padding-top: 5%; 
+padding: 0 0 2% 7%; 
+position: absolute; 
+top: 10%; 
+left: 10%; 
+width: 80%; 
+height: auto; 
+overflow-y: scroll; /* прокрутка по вертикали */ 
+background: white ; 
+box-shadow: 0px 4px 65px rgba(0, 0, 0, 0.474); 
+border-radius: 60px; 
+} 
+
+</style> 
+<title>Hello!</title> 
+</head> 
+<body> 
+<div> 
+<h1>This is bodies</h1> 
+<form id="find_body" action="/bodies" method="POST" enctype="multipart/form-data"> 
+
+<input type="text" name="find"> 
+
+<button class="btn btn-outline-dark" type="submit">Find</button> 
+</form> 
+
+<button class="btn btn-outline-dark" onclick="location.href='/' ; return false" >home</button> 
+<table border="1"> 
+<thead> 
+<th>company</th> 
+<th>model</th> 
+<th>price</th> 
+<th>av_rating</th> 
+</thead> 
+<tbody> 
+{% for body in bodies %} 
+
+<tr onclick="location.href='/bodies/thebody/?id={{body.idBody}}' ; return false" > 
+<td>{{ body.body_company }}</td> 
+<td>{{ body.model }}</td> 
+<td>{{ body.price}}</td> 
+<td>{{ body.av_rating}}</td> 
+</tr> 
+{% endfor %} 
+</tbody> 
+</table> 
+
+
+<!— Optional JavaScript —> 
+<!— jQuery first, then Popper.js, then Bootstrap JS —> 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+</div> 
+</body> 
+</html>
+
+<!doctype html> 
+<html lang="en"> 
+<head> 
+<!— Required meta tags —> 
+<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+
+<!— Bootstrap CSS —> 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+<style> 
+table { 
+font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif; 
+text-align: center; 
+border-collapse: collapse; 
+border-spacing: 5px; 
+
+border-radius: 20px; 
+} 
+h1{ 
+color: #B9268D; 
+} 
+th { 
+font-size: 22px; 
+font-weight: 300; 
+padding: 12px 10px; 
+border-bottom: 2px solid #B9268D; 
+color: #B9268D; 
+} 
+tbody tr:nth-child(2) { 
+border-bottom: 2px solid #B9268D; 
+} 
+td { 
+padding: 10px; 
+color: #B9268D; 
+} 
+.btn { 
+margin-top: 1%; 
+} 
+html{ 
+filter: invert(100%); 
+background-color: black; 
+} 
+input{ 
+color:#B9268D; 
+margin: 5px; 
+} 
+div#main { 
+padding-top: 5%; 
+padding-left: 10%; 
+position: absolute; 
+top: 10%; 
+left: 10%; 
+width: 80%; 
+height: auto; 
+
+background: white ; 
+box-shadow: 0px 4px 65px rgba(185, 38, 141, 0.9); 
+border-radius: 60px; 
+} 
+
+</style> 
+<title>Hello, world!</title> 
+</head> 
+<body> 
+<div id="main"> 
+<h1>{{User.login}}, THERE ARE YOUR EQUIPMENT </h1> 
+
+<h1>BODIES</h1> 
+<table border="1"> 
+<thead> 
+
+<th>company</th> 
+<th>model</th> 
+<th>price</th> 
+<th>matrix</th> 
+<th>power_supply</th> 
+<th>display</th> 
+
+</thead> 
+<tbody> 
+{% for body in eq[0] %} 
+<tr onclick="location.href='/bodies/thebody/?id={{body.idBody}}' ; return false" > 
+<td>{{ body.name }}</td> 
+<td>{{ body.model }}</td> 
+<td>{{ body.price}}</td> 
+<td>{{ body.matrix}}</td> 
+<td>{{ body.power_supply}}</td> 
+<td>{{ body.display}}</td> 
+
+</tr> 
+{% endfor %} 
+</tbody> 
+
+</table> 
+
+<h1>LENSES</h1> 
+<table border="1"> 
+<thead> 
+
+<th>company</th> 
+<th>model</th> 
+<th>price</th> 
+<th>min_focal_length</th> 
+<th>max_focal_length</th> 
+
+</thead> 
+<tbody> 
+{% for lens in eq[1] %} 
+<tr onclick="location.href='/lenses/thelens/?id={{lens.idLens}}' ; return false"> 
+<td>{{ lens.name }}</td> 
+<td>{{ lens.model }}</td> 
+<td>{{ lens.price}}</td> 
+<td>{{ lens.min_focal_length}}</td> 
+<td>{{ lens.max_focal_length}}</td> 
+</tr> 
+{% endfor %} 
+</tbody> 
+</table> 
+
+<h1>L_ADAPTERS</h1> 
+<table border="1"> 
+<thead> 
+
+<th>company</th> 
+<th>model</th> 
+<th>price</th> 
+
+</thead> 
+<tbody> 
+{% for l_adapter in eq[2] %} 
+<tr onclick="location.href='/l_adapters/thel_adapter/?id={{l_adapter.idLAdapter}}' ; return false"> 
+<td>{{ l_adapter.name }}</td> 
+<td>{{ l_adapter.model }}</td> 
+<td>{{ l_adapter.price}}</td> 
+
+</tr> 
+{% endfor %} 
+</tbody> 
+</table> 
+
+<h1>FLASHES</h1> 
+<table border="1"> 
+<thead> 
+
+<th>company</th> 
+<th>model</th> 
+<th>price</th> 
+
+</thead> 
+<tbody> 
+{% for flash in eq[3] %} 
+<tr onclick="location.href='/flashes/theflash/?id={{flash.idFlash}}' ; return false"> 
+<td>{{ flash.name }}</td> 
+<td>{{ flash.model }}</td> 
+<td>{{ flash.price}}</td> 
+
+</tr> 
+{% endfor %} 
+</tbody> 
+</table> 
+
+<h1>TRIPODS</h1> 
+<table border="1"> 
+<thead> 
+
+<th>company</th> 
+<th>model</th> 
+<th>price</th> 
+<th>max_load</th> 
+
+</thead> 
+<tbody> 
+{% for tripod in eq[4] %} 
+<tr onclick="location.href='/tripods/thetripod/?id={{tripod.idTripod}}' ; return false"> 
+<td>{{ tripod.name }}</td> 
+<td>{{ tripod.model }}</td> 
+<td>{{ tripod.price}}</td> 
+<td>{{ tripod.max_load}}</td> 
+</tr> 
+{% endfor %} 
+</tbody> 
+</table> 
+
+<h1>T_ADAPTERS</h1> 
+<table border="1"> 
+<thead> 
+
+<th>company</th> 
+<th>model</th> 
+<th>price</th> 
+
+</thead> 
+<tbody> 
+{% for t_adapter in eq[5] %} 
+<tr onclick="location.href='/t_adapters/thet_adapter/?id={{t_adapter.idTAdapter}}' ; return false" > 
+<td>{{ t_adapter.name }}</td> 
+<td>{{ t_adapter.model }}</td> 
+<td>{{ t_adapter.price}}</td> 
+
+</tr> 
+{% endfor %} 
+</tbody> 
+</table> 
+
+<button class="btn btn-outline-dark btn-lg" onclick="location.href='/' ; return
+ 
+false" >home</button> 
+
+</div> 
+<!— Optional JavaScript —> 
+<!— jQuery first, then Popper.js, then Bootstrap JS —> 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+
+</body> 
+</html>

@@ -1,0 +1,30 @@
+lenses comments
+<table border="1">
+        <thead>
+            <th>ID</th>
+            <th>company</th>
+            <th>model</th>
+            <th>author</th>
+            <th>text</th>
+            <th>date</th>
+   
+            <th>rating</th>
+        </thead>
+        <tbody>
+            {% for c in comments %}
+            <tr onclick="location.href='/lenses/thelens/?id={{c.idLens}}' ; return false">
+                <td >{{ c.idComment }}</td>
+                <td>{{ c.model }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.author }}</td>
+                <td>{{ c.text }}</td>
+                <td>{{ c.date }}</td>
+              
+                <td>{{ c.rating }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    
+    <button onclick="location.href='/' ; return false" >home</button>
